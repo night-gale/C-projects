@@ -13,7 +13,9 @@ int main(void) {
     operPriority['^'] = 6;
     operPriority['|'] = 7; 
     operPriority['('] = 1;
-
+    operPriority['~'] = 2;
+    operPriority['@'] = 2;  //stands for -sign
+    operPriority['$'] = 2;  //stands for +sign
     // printf("%d", ~3);
 
     for(int i = 0; i < T; i++) {
@@ -22,17 +24,15 @@ int main(void) {
         int numb[150] = {0};
         char oper[150] = {0};
         int expCounter = -1;
-        bool isPreviousNumber;
+        bool isPreviousNumber = false;
         char opStack[150] = {0};
         int top = -1;
-        char signStack[150] = {0};
-        int signTop = -1;
         int compCounter = 0;
         int numStack[150];
         int numTop = -1;
         scanf("%s", &input);
 
-        while(input[inputCounter] != '\0') {
+        while(input[inputCounter] != (char)0) {
             if((input[inputCounter] - 48 <= 9) && (input[inputCounter] - 48 >= 0)) {
                 int temp = input[inputCounter] - 48;
                 inputCounter++;
@@ -41,26 +41,26 @@ int main(void) {
                     temp = temp * 10 + (input[inputCounter] - 48);
                     inputCounter++;
                 }
-                while(signTop != -1) {
-                    switch(signStack[signTop--]) {
-                        case '+': {
-                            break;
-                        }case '-': {
-                            temp = -temp;
-                            break;
-                        }case '~': {
-                            temp = ~temp;
-                            break;
-                        }
-                    }
-                }
+                // while(signTop != -1) {
+                //     switch(signStack[signTop--]) {
+                //          case '+': {
+                //             break;
+                //         }case '-': {
+                //             temp = -temp;
+                //             break;
+                //         }case '~': {
+                //             temp = ~temp;
+                //             break;
+                //         }
+                //     }
+                // }
                 numb[++expCounter] = temp;
                 isPreviousNumber = true;
             }else {
                 switch(input[inputCounter]) {
                      case '(': {
                         opStack[++top] = input[inputCounter++];
-                        isPreviousNumber = true;
+                        isPreviousNumber = false;
                         break;
                     }case ')': {
                         while(opStack[top] != '(') {
@@ -75,23 +75,36 @@ int main(void) {
                      case '*':
                      case '&':
                      case '^':
-                     case '|': {
+                     case '|':
+                     case '~': {
                         char temp = input[inputCounter];
-                        signTop = -1;
+
                         if(!isPreviousNumber) {
-                            signStack[++signTop] = temp;
+                            if(temp == '+') temp = '$';
+                            if(temp == '-') temp = '@';
+                            while((top != -1) && (opStack[top] != '(') && (operPriority[temp] > operPriority[opStack[top]])) {
+                                oper[++expCounter] = opStack[top--];
+                            }
                         }else {
                             while((top != -1) && (opStack[top] != '(') && (operPriority[temp] >= operPriority[opStack[top]])) {
                                 oper[++expCounter] = opStack[top--];
                             }
-                            opStack[++top] = temp;
+                            isPreviousNumber = false;
                         }
+                        opStack[++top] = temp;
                         inputCounter++;
-                        while(input[inputCounter] == '+' || input[inputCounter] == '-' || input[inputCounter] == '~') {
-                            signStack[++signTop] = input[inputCounter++];
-                        }
+                        // while(input[inputCounter] == '+' || input[inputCounter] == '-' || input[inputCounter] == '~') {
+                        //     signStack[++signTop] = input[inputCounter++];
+                        // }
                         break;
                     }
+                    // case '~': {
+                    //     signStack[++signTop] = input[inputCounter];
+                    //     inputCounter++;
+                    //     while(input[inputCounter] == '+' || input[inputCounter] == '-' || input[inputCounter] == '~') {
+                    //         signStack[++signTop] = input[inputCounter++];
+                    //     }
+                    // }
                 }
             }
         }
@@ -105,11 +118,11 @@ int main(void) {
                 int b = numStack[numTop--];
                 int result;
                 switch(oper[compCounter++]) {
-                    case '+': {
+                     case '+': {
                         result = a + b;
                         break;
                     }case '-': {
-                        result = a - b;
+                        result = b - a;
                         break;
                     }case '*': {
                         result = a * b;
@@ -123,6 +136,18 @@ int main(void) {
                     }case '^': {
                         result = a ^ b;
                         break;
+                    }case '@': {
+                        result = -a;
+                        numStack[++numTop] = b;
+                        break;
+                    }case '$': {
+                        result = a;
+                        numStack[++numTop] = b;
+                        break;
+                    }case '~': {
+                        result = ~a;
+                        numStack[++numTop] = b;
+                        break;
                     }
                 }
                 numStack[++numTop] = result;
@@ -131,7 +156,7 @@ int main(void) {
             }
         }
         printf("%d\n", numStack[numTop--]);
-        // printf("%d\n", 2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2);
+        // printf("%d %d\n", +-~((1-(2*3+(4+5*6)+7)*8)), ((1-(2*3+(4+5*6)+7)*8)));
     }
     
 }
