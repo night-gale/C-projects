@@ -41,19 +41,7 @@ int main(void) {
                     temp = temp * 10 + (input[inputCounter] - 48);
                     inputCounter++;
                 }
-                // while(signTop != -1) {
-                //     switch(signStack[signTop--]) {
-                //          case '+': {
-                //             break;
-                //         }case '-': {
-                //             temp = -temp;
-                //             break;
-                //         }case '~': {
-                //             temp = ~temp;
-                //             break;
-                //         }
-                //     }
-                // }
+
                 numb[++expCounter] = temp;
                 isPreviousNumber = true;
             }else {
