@@ -47,7 +47,7 @@ void binarySearch(long long aim, int start, int end) {
     while(true) {
         int mid = (start + end) / 2;
 
-        if(((start + 1) == end) || start >= end) {
+        if( start >= (end - 1)) {
             if(array[start] == aim || array[end] == aim) counter++;
             return;
         }

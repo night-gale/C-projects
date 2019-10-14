@@ -22,12 +22,14 @@ int main(void) {
         for(long long j = 3; j < sqrtl(2 * n); j++) {
             if(j % 2 == 1) {
                 if((n % j == 0) && ((n / j - j / 2) >= 1)) {
+                    //n has a odd factor j and n can be divided into n/j lines in ascending order
                     cout << j << endl;
                     found = 1;
                     break;
                 }
             }else if(j % 2 == 0) {
                 if(((n - (n / j * j)) == (j / 2)) && ((n / j - j / 2 + 1) >= 1)) {
+                    //n has a even factor j and n can be divided into n/j lines the first lines has more than one person
                     cout << j << endl;
                     found = 1;
                     break;
