@@ -14,7 +14,7 @@ void mismatch(int *mmArray, char *_string,  int size) {
                 mmArray[i] = 0;
                 break;
             }
-            temp = mmArray[temp];
+            temp = mmArray[temp - 1];
         }
     }
 }
