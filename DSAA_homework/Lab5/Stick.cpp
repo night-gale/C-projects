@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-char boy1[100002] = {0}, boy2[100002] = {0};
+char boy1[100002], boy2[100002];
 int size1, size2;
 int binarySearch(long long *array, int start, int end, long long key);
 bool hashAndSearch(int size);
@@ -43,7 +43,7 @@ int binarySearch(long long *array, int start, int end, long long key) {
         if(start > end) {
             return -1;
         }
-        int mid = (start + end) / 2;
+        mid = (start + end) / 2;
         if(array[mid] == key) {
             return mid;
         }else if(array[mid] < key) {
@@ -55,25 +55,25 @@ int binarySearch(long long *array, int start, int end, long long key) {
 }
 
 bool hashAndSearch(int m) {
-    long long hash1[size1] = {0};
-    int _index[size1] = {0};
-    long long hash2[size2] = {0};
+    long long hash1[100002] = {0};
+    int _index[100002] = {0};
+    long long hash2[100002] = {0};
     long long _pow = 1;
     for(int i = 0; i < m - 1; i++) {
-        _pow *= 10;
+        _pow *= 131;
     }
 
     for(int i = 0; i < m; i++) {
-        hash1[0] = hash1[0] * 10 + boy1[i];
-        hash2[0] = hash2[0] * 10 + boy2[i];
+        hash1[0] = hash1[0] * 131 + boy1[i];
+        hash2[0] = hash2[0] * 131 + boy2[i];
     }
     _index[0] = 0;
     for(int i = 1; i <= size1 - m; i++) {
-        hash1[i] = (hash1[i - 1] - boy1[i - 1] * _pow) * 10 + boy1[i + m - 1];
+        hash1[i] = (hash1[i - 1] - boy1[i - 1] * _pow) * 131 + boy1[i + m - 1];
         _index[i] = i;
     }
     for(int i = 1; i <= size2 - m; i++) {
-        hash2[i] = (hash2[i - 1] - boy2[i - 1] * _pow) * 10 + boy2[i + m - 1];
+        hash2[i] = (hash2[i - 1] - boy2[i - 1] * _pow) * 131 + boy2[i + m - 1];
     }
     
     mergeSort(hash1, _index, 0, size1 - m);
@@ -91,12 +91,12 @@ bool hashAndSearch(int m) {
                 return true;
             }
             //left check
-            while(left--) {
+            while(--left && hash1[left] == hash1[i]) {
                 if(match(_index[left], i, m)) {
                     return true;
                 }
             }
-            while(right++){
+            while(++right != size2 -m && hash1[right] == hash1[i]){
                 if(match(_index[right], i, m)) {
                     return true;
                 }
