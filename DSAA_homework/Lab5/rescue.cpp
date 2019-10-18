@@ -1,5 +1,6 @@
 #include <stdio.h>
-#define SIZE 50
+
+#define SIZE 500003
 void mismatch(int *, char *, int);
 char key[256];
 char code[SIZE];
@@ -24,7 +25,8 @@ int main(void) {
 
     dptr = size / 2 - 1;
     while(dptr != size ) {
-        if(code[cptr] == decoded[dptr]) {
+        if(code[cptr] == decoded[dptr] && (cptr != dptr - cptr)) {
+            //overlap counted as mismactch
             cptr++;
             dptr++;
         }else {
