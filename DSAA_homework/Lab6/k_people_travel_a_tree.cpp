@@ -14,7 +14,7 @@ class Node {
         data = _data;
         father = 0;
         has_people = 0;
-        max_depth = 0;
+        max_depth = -1;
     }
 };
 
@@ -50,6 +50,10 @@ int main(void) {
         find_max_depth(ref[1]);
         int max_depth = find_distance(ref[1]);
         printf("%d\n", max_depth / 2 + max_depth % 2);
+
+        for(int i = 1; i <= N; i++) {
+            delete ref[i];
+        }
     }
 }
 
@@ -100,7 +104,7 @@ int find_distance(Node* root) {
     }
     if(max != -1 && se_max != -1) {
         return max + se_max + 2;
-    }else if((max == -1 || se_max == -1)) {
+    }else {
         //treat its father as one branch of the current ${root}
         if(!root->father) {
             //${root} does not have father
@@ -108,7 +112,7 @@ int find_distance(Node* root) {
                 //one person in ${root} Node
                 root->max_depth = 0;
             }else {
-                //nobody lives here
+                //nobody lives there
                 root->max_depth = -1;
             }
         }else {
@@ -121,7 +125,7 @@ int find_distance(Node* root) {
                 //but ${root} Node has a person
                 root->max_depth = 0;
             }else {
-                //no effective father, nobody
+                //no effective father, and nobody lives there. Then the branch is not effective
                 root->max_depth = -1;
             }
         }
