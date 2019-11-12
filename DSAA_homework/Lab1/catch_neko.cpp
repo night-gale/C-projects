@@ -25,7 +25,7 @@ int main(void) {
 
     for(int i = 1; i <= N; i++) {
         char temp;
-        scanf("%c", &temp);
+        scanf("%c", &temp);  //use scanf("%s", ${char_array}) would be better
         position[0][i] = position[0][i - 1];
         position[1][i] = position[1][i - 1];
         switch(temp) {
@@ -44,6 +44,7 @@ int main(void) {
             }
         }
     }
+    //3e14 the upper bound
     long long currentX = ((long long) 3e14) / N * (position[0][N] - position[0][0]) + position[0][((long long) 3e14) % N];
     long long currentY = ((long long) 3e14)/ N * (position[1][N] - position[1][0]) + position[1][((long long) 3e14) % N];
     long long distance = absolute(currentX - eveX) + absolute(currentY - eveY);
