@@ -63,11 +63,15 @@ class AVLtree {
                             LRotate(par);
                         }else if(status == 1) {
                             //RL
+                            RRotate(par->right);
+                            LRotate(par);
                         }
                     }else if(status == 2) {
                         status = isBalanced(par->left);
                         if(status == -1) {
                             //LR
+                            LRotate(par->left);
+                            RRotate(par);
                         }else if(status == 1) {
                             //LL
                             RRotate(par);
@@ -121,17 +125,17 @@ class AVLtree {
         }else {
             this->root = right;
         }
-        getDepth(right);
-        getDepth(root);
 
+        getDepth(subroot);
+        getDepth(right);
     }
 
     void getDepth(Node* subroot) {
         int ld = -1, rd = -1;
-        if(subroot->left->depth) {
+        if(subroot->left) {
             ld = subroot->left->depth;
         }
-        if(subroot->right->depth) {
+        if(subroot->right) {
             rd = subroot->right->depth;
         }
         subroot->depth = ((ld > rd)? ld: rd) + 1;
@@ -154,8 +158,18 @@ class AVLtree {
         }else {
             this->root = left;
         }
+        getDepth(subroot);
         getDepth(left);
-        getDepth(root);
+    }
+
+    void print_tree(Node* subroot) {
+        if(subroot->left) {
+            print_tree(subroot->left);
+        }
+        printf("%d ", subroot->data);
+        if(subroot->right) {
+            print_tree(subroot->right);
+        }
     }
 };
 
@@ -169,5 +183,6 @@ int main(void) {
         scanf("%d", &data);
         atree.insert(data);
     }
-    atree;
+    atree.print_tree(atree.root);
+    printf("\n");
 }
