@@ -301,28 +301,27 @@ class AVLtree {
     }
 };
 
+
+int m, k;
+AVLtree atree;
+int ai[100001];
+
 int main(void) {
-    int n;
-    scanf("%d", &n);
-    AVLtree atree;
-    long long data;
-    for(int i = 0; i < n; i++) {
-        scanf("%lld", &data);
-        atree.insert(data);
+    int counter = 0;
+    int ni;
+    Node* temp;
+    scanf("%d %d", &m, &k);
+    for(int i = 0; i < m; i++) {
+        scanf("%d", &ai[i]);
     }
-    // for(int i = 0; i < atree.root->nchild + 1; i++) {
-    //     printf("%lld ", atree.findkth(i + 1)->data);
-    // }
-    for(int i = 1; i < n + 1; i++) {
-        scanf("%lld", &data);
-        atree.delete_Node(data);
-        atree.print_tree(atree.root);
-        printf("\n");
-    }
-    // while(atree.root->nchild >= 1) {
-    //     printf("%lld\n", atree.findkth(atree.root->nchild + 1)->data);
-    //     atree.delete_Node(atree.findkth(atree.root->nchild + 1)->data);
-    //     // atree.print_tree(atree.root);
-    // }
-    printf("\n");
+    while(counter < m) {
+        atree.insert(ai[counter]);
+        if(counter >= (k - 1)) {
+            scanf("%d", &ni);
+            temp = atree.findkth(ni);
+            printf("%lld\n", temp->data);
+            atree.delete_Node(ai[counter-k+1]);
+        }
+        counter++;
+    }   
 }
