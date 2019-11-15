@@ -26,6 +26,14 @@ class Node {
         parent = 0;
         nchild = 0;
     }
+    ~Node() {
+        parent = 0;
+        left = 0;
+        right = 0;
+        depth = -1;
+        nchild = -1;
+        data = -1;
+    }
 };
 
 class AVLtree {
@@ -91,20 +99,20 @@ class AVLtree {
         if(!current->left && !current->right) {
             //leaf node
             if(!par) {
-                delete root;
                 root = 0;
             }else {
                 if(par->left == current) {
-                    delete par->left;
                     par->left = 0;
-                }else {
-                    delete par->right;
+                    top--;
+                }else if(par->right == current) {
                     par->right = 0;
+                    top--;
                 }
                 getDepth(par);
             }
+            delete current;
         }else {
-            //eternal node
+            //internal node
             Node* relp;
             if(current->left) {
                 //has left node
@@ -117,7 +125,7 @@ class AVLtree {
                 if(relp != current->left) {
                     //current node has a predecessor
                     relp->parent->right = relp->left;
-                    if(relp->left) relp->left->parent = relp->parent->left;
+                    if(relp->left) relp->left->parent = relp->parent;
                 }else {
                     //current node does not have a predecessor
                     if(relp->left) relp->left->parent = current;
@@ -134,7 +142,7 @@ class AVLtree {
                 if(relp != current->right) {
                     //current node has a successor
                     relp->parent->left = relp->right;
-                    if(relp->right) relp->right->parent = relp->parent->right;
+                    if(relp->right) relp->right->parent = relp->parent;
                 }else {
                     //current node does not have a successor
                     if(relp->right) relp->right->parent = current;
@@ -175,7 +183,7 @@ class AVLtree {
     }
 
     Node* find(long long key, Node* subroot) {
-        Node* current = root;
+        Node* current = subroot;
         while(current) {
             stack[++top] = current;
             if(current->data < key) {
@@ -312,16 +320,19 @@ int main(void) {
     // for(int i = 0; i < atree.root->nchild + 1; i++) {
     //     printf("%lld ", atree.findkth(i + 1)->data);
     // }
-    for(int i = 1; i < n + 1; i++) {
-        scanf("%lld", &data);
-        atree.delete_Node(data);
-        atree.print_tree(atree.root);
-        printf("\n");
-    }
-    // while(atree.root->nchild >= 1) {
-    //     printf("%lld\n", atree.findkth(atree.root->nchild + 1)->data);
-    //     atree.delete_Node(atree.findkth(atree.root->nchild + 1)->data);
-    //     // atree.print_tree(atree.root);
+    // for(int i = 1; i < n + 1; i++) {
+    //     scanf("%lld", &data);
+    //     atree.delete_Node(data);
+    //     atree.print_tree(atree.root);
+    //     printf("\n");
     // }
+
+    long long k;
+    while(atree.root->nchild >= 1) {
+         k = atree.findkth((atree.root->nchild + 1) / 2)->data;
+        printf("%lld\n", k);
+        atree.delete_Node(k);
+        // atree.print_tree(atree.root);
+    }
     printf("\n");
 }
