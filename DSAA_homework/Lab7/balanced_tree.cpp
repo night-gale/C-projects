@@ -46,14 +46,13 @@ class AVLtree {
             Node* current = find(data, root);
             if(!current) {
                 Node* child = new Node(data, 0);
-                Node* par = stack[top--];
+                Node* par = stack[top];
                 if(par->data < data) {
                     par->right = child;
                 }else {
                     par->left = child;
                 }
                 child->parent = par;
-                getDepth(par);
                 while(top != -1) {
                     child = par;
                     par = stack[top--];
