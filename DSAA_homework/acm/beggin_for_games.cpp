@@ -41,6 +41,7 @@ long long binarySearch(long long start, long long end) {
 }
 
 
+
 int main(void) {
     scanf("%lld %lld %lld %lld", &N, &I, &M, &K);
     for(int i = 0; i < M; i++) {
