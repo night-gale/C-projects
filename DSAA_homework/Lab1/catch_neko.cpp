@@ -18,7 +18,6 @@ long long absolute(long long n) {
 int main(void) {
     scanf("%lld %lld", &eveX, &eveY);
     scanf("%lld %lld", &position[0][0], &position[1][0]);
-//    scanf("%lld\n", &N);  //get rid of \n
 
     scanf("%lld", &N);
     scanf("%c");
@@ -46,7 +45,7 @@ int main(void) {
     }
     //3e14 the upper bound
     long long currentX = ((long long) 3e14) / N * (position[0][N] - position[0][0]) + position[0][((long long) 3e14) % N];
-    long long currentY = ((long long) 3e14)/ N * (position[1][N] - position[1][0]) + position[1][((long long) 3e14) % N];
+    long long currentY = ((long long) 3e14) / N * (position[1][N] - position[1][0]) + position[1][((long long) 3e14) % N];
     long long distance = absolute(currentX - eveX) + absolute(currentY - eveY);
     
     if((eveX == position[0][0]) && (eveY == position[1][0])) {
