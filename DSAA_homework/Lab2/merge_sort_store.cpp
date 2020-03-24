@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int array[1000000];
+int array[2000001];
 int n;
 void merge(int, int);
 
@@ -27,8 +27,8 @@ void merge(int start, int end) {
     merge(mid + 1, end);
     int leftSize = mid -start + 1;
     int rightSize = end - mid;
-    int left[leftSize];
-    int right[rightSize];
+    int* left = new int[leftSize];
+    int* right = new int[rightSize];
     
      
     for(int i = 0; i < leftSize; i++) {
@@ -47,4 +47,6 @@ void merge(int start, int end) {
             array[i] = right[rightCounter++];
         }
     }
+    delete[] left;
+    delete[] right;
 }
